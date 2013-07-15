@@ -1,0 +1,21 @@
+main: net.ST392.ChangeHorse.ChangeHorse
+author: ST392
+name: ChangeHorse
+version: 1.01
+
+permissions:
+    ChangeHorse.change:
+        description: Allows use of this plugin.
+        default: op
+
+commands:
+   ChangeHorse:
+      description: Main command
+      permissions: ChangeHorse.change
+      usage: |
+          /ChangeHorse (property)
+   ch:
+      description: Main command
+      permissions: ChangeHorse.change
+      usage: |
+          /ChangeHorse (property)
