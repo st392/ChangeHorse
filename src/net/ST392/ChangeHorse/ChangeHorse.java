@@ -1,6 +1,3 @@
-//author: ST392
-//version 1.0
-
 package net.ST392.ChangeHorse;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,7 +20,8 @@ public class ChangeHorse extends JavaPlugin{
 	
 	@Override
 	public void onDisable(){
-		
+		this.commandExecutor = null;
+		this.log = null;
 	}
 	
 }
