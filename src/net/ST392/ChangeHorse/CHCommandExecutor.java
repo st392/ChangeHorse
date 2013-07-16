@@ -1,5 +1,6 @@
 package net.ST392.ChangeHorse;
 
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -33,6 +34,7 @@ public class CHCommandExecutor implements CommandExecutor {
 		}
 		
 		if (!player.isInsideVehicle() || !(player.getVehicle().getType().getName().equals("EntityHorse"))) {
+			
 			this.plugin.getLog().sendPlayerNormal(player, "Must have argument and must be riding a horse.");
 			
 			return false; 
@@ -40,7 +42,7 @@ public class CHCommandExecutor implements CommandExecutor {
 
 		if(args.length == 0){
 			this.plugin.getLog().sendPlayerNormal(player, "/ChangeHorse (property)");
-			this.plugin.getLog().sendPlayerNormal(player, "Properties are: Variant, Color, Style, RemoveChest");		
+			this.plugin.getLog().sendPlayerNormal(player, "Properties are: Type, Color, Style");		
 			return true;
 		}		
 		
@@ -61,21 +63,25 @@ public class CHCommandExecutor implements CommandExecutor {
 			args[1] = args[1] + args[2];
 		}
 		
-		if(property.toLowerCase().equals("variant") || property.toLowerCase().equals("v")){
+		if(property.toLowerCase().equals("type") || property.toLowerCase().equals("t")){
 			if(args.length == 1){
-				this.plugin.getLog().sendPlayerNormal(player, "Variants options are:");
+				this.plugin.getLog().sendPlayerNormal(player, "Type options are:");
 				for(Horse.Variant variant: Horse.Variant.values()){
 					this.plugin.getLog().sendPlayerNormal(player, "     " + variant.toString().toLowerCase());
 				}
 			}else{
 				for(Horse.Variant variant: Horse.Variant.values()){
-					if(variant.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase().replaceAll("_", ""))){
+					if(variant.toString().toLowerCase().replaceAll("_", "").replaceAll("horse", "").equals(args[1].toLowerCase().replaceAll("_", "").replaceAll("horse", ""))){
+						if(variant != Horse.Variant.HORSE && horse.getInventory().getArmor() != null){
+							player.sendMessage(ChatColor.RED + "Please remove horse armor before changing horse type.");
+							return true;
+						}
 						horse.setVariant(variant);
-						this.plugin.getLog().sendPlayerNormal(player, "Horse set to " + variant.toString());
+						this.plugin.getLog().sendPlayerNormal(player, "Horse type set to " + variant.toString());
 						return true;
 					}
 				}
-				this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Variants: /ChangeHorse Variant");
+				this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Types: /ChangeHorse Type");
 				return true;
 			}
 		}else if(property.toLowerCase().equals("color") || property.toLowerCase().equals("c")){
@@ -85,15 +91,19 @@ public class CHCommandExecutor implements CommandExecutor {
 					this.plugin.getLog().sendPlayerNormal(player, "     " + color.toString().toLowerCase().replaceAll("_", ""));
 				}
 			}else{
-				for(Horse.Color color: Horse.Color.values()){
-					if(color.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase())){
-						horse.setColor(color);
-						this.plugin.getLog().sendPlayerNormal(player, "Horse set to " + color.toString());
-						return true;
+				if(horse.getVariant() == Horse.Variant.HORSE){
+					for(Horse.Color color: Horse.Color.values()){
+						if(color.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase())){
+							horse.setColor(color);
+							this.plugin.getLog().sendPlayerNormal(player, "Horse color set to " + color.toString());
+							return true;
+						}
 					}
+					this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Colors: /ChangeHorse Color");
+					return true;
+				}else{
+					player.sendMessage(ChatColor.RED + "Horse colors only apply to normal horses");
 				}
-				this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Colors: /ChangeHorse Color");
-				return true;
 			}
 		}else if(property.toLowerCase().equals("style") || property.toLowerCase().equals("s")){
 			if(args.length == 1){
@@ -102,14 +112,18 @@ public class CHCommandExecutor implements CommandExecutor {
 					this.plugin.getLog().sendPlayerNormal(player, "     " + style.toString().toLowerCase());
 				}
 			}else{
-				for(Horse.Style style: Horse.Style.values()){
-					if(style.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase().replaceAll("_", ""))){
-						horse.setStyle(style);
-						this.plugin.getLog().sendPlayerNormal(player, "Horse set to " + style.toString());
-						return true;
+				if(horse.getVariant() == Horse.Variant.HORSE){
+					for(Horse.Style style: Horse.Style.values()){
+						if(style.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase().replaceAll("_", ""))){
+							horse.setStyle(style);
+							this.plugin.getLog().sendPlayerNormal(player, "Horse style set to " + style.toString());
+							return true;
+						}
 					}
+					this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Styles: /ChangeHorse Style");
+				}else{
+					player.sendMessage(ChatColor.RED + "Horse styles only apply to normal horses");
 				}
-				this.plugin.getLog().sendPlayerNormal(player, "Invalid arguement.  For list of Styles: /ChangeHorse Style");
 			}
 		}else{
 			this.plugin.getLog().sendPlayerNormal(player, "Invalid arguments.  /changehorse (property) (value)");
@@ -117,6 +131,5 @@ public class CHCommandExecutor implements CommandExecutor {
 		}
 		
 		return true;
-	}	
-	
+	}
 }
