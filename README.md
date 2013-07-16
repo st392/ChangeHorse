@@ -7,5 +7,4 @@ Bukkit plugin for changing horse characteristics in game
 Source Code can be found at: https://github.com/st392/ChangeHorse/
 
 
-
-For the most current version DOWNLOAD HERE: http://minersusa.net/downloads/ChangeHorse.jar
+The most current version of this plugin can be downloaded here: http://minersusa.net/downloads/ChangeHorse.jar
