@@ -15,7 +15,7 @@ public class ChangeHorse extends JavaPlugin{
 		//Command Handler
 		this.commandExecutor = new CHCommandExecutor(this);
 		this.getCommand("changehorse").setExecutor(this.commandExecutor);
-		this.getCommand("ch").setExecutor(this.commandExecutor);
+		this.getCommand("chs").setExecutor(this.commandExecutor);
 	}
 	
 	@Override
