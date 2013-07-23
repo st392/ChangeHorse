@@ -1,7 +1,7 @@
 main: net.ST392.ChangeHorse.ChangeHorse
 author: ST392
 name: ChangeHorse
-version: 1.2
+version: 1.3
 
 permissions:
     ChangeHorse.change:
@@ -13,9 +13,9 @@ commands:
       description: Main command
       permissions: ChangeHorse.change
       usage: |
-          /ChangeHorse (property)
+          /ChangeHorse (get/set)
    ch:
       description: Main command
       permissions: ChangeHorse.change
       usage: |
-          /ChangeHorse (property)
+          /ChangeHorse (get/set)
