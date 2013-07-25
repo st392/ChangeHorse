@@ -1,0 +1,9 @@
+##############
+#   Update   #
+##############
+# Whether or not to check for updates
+# Default: true
+checkUpdate: true
+# Whether or not to download new updates
+# Default: true
+doUpdate: true
