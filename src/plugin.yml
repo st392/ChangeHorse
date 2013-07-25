@@ -1,21 +1,68 @@
 main: net.ST392.ChangeHorse.ChangeHorse
 author: ST392
 name: ChangeHorse
-version: 1.3.1
-
-permissions:
-    ChangeHorse.change:
-        description: Allows use of this plugin.
-        default: op
+version: 1.3.2
 
 commands:
    ChangeHorse:
       description: Main command
-      permissions: ChangeHorse.change
       usage: |
           /ChangeHorse (get/set)
    chs:
       description: Main command
-      permissions: ChangeHorse.change
       usage: |
           /ChangeHorse (get/set)
+
+permissions:
+    changehorse.*:
+        description: Gives access to all ChangeHorse commands
+        children:
+            changehorse.get.*: true
+            changehorse.set.*: true
+            
+    changehorse.get.*:
+        description: Allows user to get or view all properties of the horse
+        default: true
+        children:
+            changehorse.get.type: true
+            changehorse.get.color: true
+            changehorse.get.style: true
+            changehorse.get.jumpstrength: true
+    changehorsee.set.*:
+        description: Allows user to set all the properties of the horse
+        default: op
+        children:
+            changehorse.set.type: true
+            changehorse.set.color: true
+            changehorse.set.style: true
+            changehorse.set.jumpstrength: true
+            changehorse.set.maxhealth: true
+            
+    changehorse.get.type:
+         description: Allows user to view the current type of the horse
+         default: true
+    changehorse.get.color:
+         description: Allows user to view the current color of the horse
+         default: true
+    changehorse.get.style:
+         description: Allows user to view the current style of the horse
+         default: true
+    changehorse.get.jumpstrength:
+         description: Allows user to view the current jump strength of the horse
+         default: true
+         
+    changehorse.set.type:
+         description: Allows the user to set the type of horse they are riding
+         default: op
+    changehorse.set.color:
+         description: Allows the user to set the color of horse they are riding
+         default: op
+    changehorse.set.style:
+         description: Allows the user to set the style of horse they are riding
+         default: op
+    changehorse.set.jumpstrength:
+         description: Allows the user to set the jump strength of horse they are riding
+         default: op
+    changehorse.set.maxhealth:
+         description: Allows the user to set the maximum health of horse they are riding
+         default: op
