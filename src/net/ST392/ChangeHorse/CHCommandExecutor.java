@@ -38,7 +38,7 @@ public class CHCommandExecutor implements CommandExecutor {
 		if (!player.isInsideVehicle() || !(player.getVehicle() instanceof Horse)) {
 
 			player.sendMessage(ChatColor.YELLOW + "Must have argument and must be riding a horse.");
-			return false; 
+			return true; 
 		}
 
 		if(args.length == 0){
@@ -60,7 +60,7 @@ public class CHCommandExecutor implements CommandExecutor {
 		}
 
 		if(args.length > 3){
-			args[2] = args[2] + args[3];
+			args[2] += args[3];
 		}
 
 		if(property.equals("get")){
@@ -74,7 +74,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("type") || option.equals("t")){
 				if(!player.hasPermission("changehorse.get.type")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				player.sendMessage(ChatColor.GREEN + "Horse type is: " + horse.getType());
 				return true;
@@ -82,7 +82,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("color") || option.equals("c")){
 				if(!player.hasPermission("changehorse.get.color")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				player.sendMessage(ChatColor.GREEN + "Horse color is: " + horse.getColor());
 				return true;
@@ -90,7 +90,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("style") || option.equals("st")){
 				if(!player.hasPermission("changehorse.get.style")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				player.sendMessage(ChatColor.GREEN + "Horse style is: " + horse.getStyle());
 				return true;
@@ -98,7 +98,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("jumpstrength") || option.equals("js")){
 				if(!player.hasPermission("changehorse.get.jumpstrength")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				player.sendMessage(ChatColor.GREEN + "Horse type is: " + horse.getJumpStrength()*50);
 				return true;
@@ -117,7 +117,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("type") || option.equals("t")){
 				if(!player.hasPermission("changehorse.set.type")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 
 				if(args.length == 2){
@@ -146,7 +146,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("color") || option.equals("c")){
 				if(!player.hasPermission("changehorse.set.color")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 
 				if(args.length == 2){
@@ -176,7 +176,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("style") || option.equals("st")){
 				if(!player.hasPermission("changehorse.set.style")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				if(args.length == 2){
 					player.sendMessage(ChatColor.GREEN + "Style options are:");
@@ -187,7 +187,7 @@ public class CHCommandExecutor implements CommandExecutor {
 				}else{
 					if(horse.getVariant() == Horse.Variant.HORSE){
 						for(Horse.Style style: Horse.Style.values()){
-							if(style.toString().toLowerCase().replaceAll("_", "").equals(args[1].toLowerCase().replaceAll("_", ""))){
+							if(style.toString().toLowerCase().replaceAll("_", "").equals(args[2].toLowerCase().replaceAll("_", ""))){
 								horse.setStyle(style);
 								player.sendMessage(ChatColor.GREEN + "Horse style set to " + style.toString());
 								return true;
@@ -205,7 +205,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("jumpstrength") || option.equals("js")){
 				if(!player.hasPermission("changehorse.set.jumpstrength")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				if(args.length == 2){
 					player.sendMessage(ChatColor.GREEN + "Valid range for Jump Strength is: 0-100");
@@ -233,7 +233,7 @@ public class CHCommandExecutor implements CommandExecutor {
 			if(option.equals("maxhealth") || option.equals("mh")){
 				if(!player.hasPermission("changehorse.set.maxhealth")){
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
-					return false;
+					return true;
 				}
 				if(args.length == 2){
 					player.sendMessage(ChatColor.GREEN + "Valid range for Max Health is: 0-60");
