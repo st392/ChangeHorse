@@ -28,12 +28,21 @@ public class CHCommandExecutor implements CommandExecutor {
 
 		//Make sure command was not sent from console
 		if (sender instanceof Player == false){
+			if(args.length > 0 && (args[0].toLowerCase().equals("version") || args[0].toLowerCase().equals("v"))){
+				plugin.getLog().info("ChangeHorse version " + this.plugin.currentVersion);
+				return true;
+			}
 			plugin.getLog().info("/ChangeHorse is only available in game.");
 			return true;
 		}
 
 		//Convert sender to Player
 		Player player = (Player) sender;
+		
+		if(args.length > 0 && (args[0].toLowerCase().equals("version") || args[0].toLowerCase().equals("v"))){
+			player.sendMessage(ChatColor.YELLOW + "ChangeHorse version " + this.plugin.currentVersion);
+			return true;
+		}
 
 		if (!player.isInsideVehicle() || !(player.getVehicle() instanceof Horse)) {
 
@@ -249,7 +258,7 @@ public class CHCommandExecutor implements CommandExecutor {
 
 					if(num > 0 && num <= 100){
 						horse.setMaxHealth(num);
-						player.sendMessage(ChatColor.GREEN + "Horse jump strength set to " + num);
+						player.sendMessage(ChatColor.GREEN + "Horse max health set to " + num);
 						return true;
 					}else{
 						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use /ChangeHorse set MaxHealth");
