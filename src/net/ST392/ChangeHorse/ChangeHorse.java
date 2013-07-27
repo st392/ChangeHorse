@@ -2,6 +2,8 @@ package net.ST392.ChangeHorse;
 
 //import java.io.File;
 
+import java.io.IOException;
+
 import net.ST392.ChangeHorse.Updater.UpdateType;
 
 //import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +16,7 @@ public class ChangeHorse extends JavaPlugin{
 	
 	//config settings
 	protected Boolean checkUpdate;
+	protected Boolean useMcstats;
 	protected Boolean doUpdate;
 	public String currentVersion;
 	
@@ -29,9 +32,11 @@ public class ChangeHorse extends JavaPlugin{
         this.saveDefaultConfig();
         this.getConfig().addDefault("checkUpdate", true);
         this.getConfig().addDefault("doUpdate", true);
+        this.getConfig().addDefault("enableMcstats", true);
         
         checkUpdate = this.getConfig().getBoolean("checkUpdate");
         doUpdate = this.getConfig().getBoolean("doUpdate");
+        useMcstats = this.getConfig().getBoolean("enableMcstats");
         
         
         /**
@@ -81,6 +86,17 @@ public class ChangeHorse extends JavaPlugin{
                     log.info("http://dev.bukkit.org/server-mods/changehorse/");
                     break;
             }
+        }
+        
+        //mcstats
+        if(useMcstats){
+        	try {
+        	    Metrics metrics = new Metrics(this);
+        	    metrics.start();
+        	    log.info("Using McStats");
+        	} catch (IOException e) {
+        	    log.info("McStats failed to start");
+        	}
         }
         
 		//Command Handler
