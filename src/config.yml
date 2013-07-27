@@ -7,3 +7,6 @@ checkUpdate: true
 # Whether or not to download new updates
 # Default: true
 doUpdate: true
+# Whether or not to report statistics to mcstats.org
+# Default: true
+enableMcstats: true
