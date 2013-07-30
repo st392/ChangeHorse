@@ -16,7 +16,6 @@ public class ChangeHorse extends JavaPlugin{
 	
 	//config settings
 	protected Boolean checkUpdate;
-	protected Boolean useMcstats;
 	protected Boolean doUpdate;
 	public String currentVersion;
 	
@@ -32,11 +31,9 @@ public class ChangeHorse extends JavaPlugin{
         this.saveDefaultConfig();
         this.getConfig().addDefault("checkUpdate", true);
         this.getConfig().addDefault("doUpdate", true);
-        this.getConfig().addDefault("enableMcstats", true);
         
         checkUpdate = this.getConfig().getBoolean("checkUpdate");
         doUpdate = this.getConfig().getBoolean("doUpdate");
-        useMcstats = this.getConfig().getBoolean("enableMcstats");
         
         
         /**
@@ -89,14 +86,12 @@ public class ChangeHorse extends JavaPlugin{
         }
         
         //mcstats
-        if(useMcstats){
-        	try {
-        	    Metrics metrics = new Metrics(this);
-        	    metrics.start();
-        	    log.info("Using McStats");
-        	} catch (IOException e) {
-        	    log.info("McStats failed to start");
-        	}
+        try {
+        	Metrics metrics = new Metrics(this);
+        	metrics.start();
+        	log.info("Using McStats");
+        } catch (IOException e) {
+        	log.info("McStats failed to start");
         }
         
 		//Command Handler
