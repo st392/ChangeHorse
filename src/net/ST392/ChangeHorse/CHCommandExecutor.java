@@ -9,9 +9,9 @@ import org.bukkit.entity.Player;
 
 public class CHCommandExecutor implements CommandExecutor {
 	
-	String mainArgs = ChatColor.GREEN + "/ChangeHorse (set/get)";
-	String getArgs = ChatColor.YELLOW + "A valid property to get is required. " + ChatColor.GREEN + " Options are: Type, Color, Style, JumpStrength";
-	String setArgs = ChatColor.YELLOW + "A valid property to set is required. " + ChatColor.GREEN + " Options are: Type, Color, Style, JumpStrength, MaxHealth";
+	String mainArgs = ChatColor.GREEN + "/ChangeHorse help " + ChatColor.YELLOW + " -- for help with using this plugin";
+	String getArgs = ChatColor.YELLOW + "A valid property to get is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength";
+	String setArgs = ChatColor.YELLOW + "A valid property to set is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength, MaxHealth";
 
 	//Class that handles slash commands from user
 	//=============================================
@@ -43,10 +43,21 @@ public class CHCommandExecutor implements CommandExecutor {
 			player.sendMessage(ChatColor.YELLOW + "ChangeHorse version " + this.plugin.currentVersion);
 			return true;
 		}
+		
+		if(args.length > 0 && (args[0].toLowerCase().equals("help") || args[0].toLowerCase().equals("h"))){
+			player.sendMessage(ChatColor.AQUA + "ChangeHorse Help:");
+			player.sendMessage(ChatColor.YELLOW + "/chs set -- Shows properties you can set on your horse");
+			player.sendMessage(ChatColor.YELLOW + "/chs set [property] -- Displays valid values you can set to this property");
+			player.sendMessage(ChatColor.YELLOW + "/chs set [property] [value] -- Sets the value of the property on your horse");
+			player.sendMessage(ChatColor.YELLOW + "/chs get -- Shows properties you can view on your horse");
+			player.sendMessage(ChatColor.YELLOW + "/chs get [property] -- Displays the current set property of your horse that you specify");
+			player.sendMessage(ChatColor.YELLOW + "/chs verion -- shows the version of ChangeHorse");
+			
+			return true;
+		}
 
 		if (!player.isInsideVehicle() || !(player.getVehicle() instanceof Horse)) {
-
-			player.sendMessage(ChatColor.YELLOW + "Must have argument and must be riding a horse.");
+			player.sendMessage(ChatColor.YELLOW + "You must be riding a horse to use this command.");
 			return true; 
 		}
 
@@ -64,7 +75,7 @@ public class CHCommandExecutor implements CommandExecutor {
 		try { property = args[0].toLowerCase(); } catch(NumberFormatException e) {}
 
 		if(property == null){
-			player.sendMessage("Invalid argument");
+			player.sendMessage(ChatColor.YELLOW + "Invalid argument, try " + ChatColor.GREEN + "/chs help");
 			return true;
 		}
 
@@ -109,7 +120,7 @@ public class CHCommandExecutor implements CommandExecutor {
 					player.sendMessage(ChatColor.RED + "You don't have permission!");
 					return true;
 				}
-				player.sendMessage(ChatColor.GREEN + "Horse type is: " + horse.getJumpStrength()*50);
+				player.sendMessage(ChatColor.GREEN + "Horse jump strength is: " + horse.getJumpStrength()*50);
 				return true;
 			}
 			player.sendMessage(getArgs);
@@ -147,7 +158,7 @@ public class CHCommandExecutor implements CommandExecutor {
 							return true;
 						}
 					}
-					player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Types: /ChangeHorse Type");
+					player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Types: /ChangeHorse set Type");
 					return true;
 				}
 
@@ -173,7 +184,7 @@ public class CHCommandExecutor implements CommandExecutor {
 								return true;
 							}
 						}
-						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Colors: /ChangeHorse Color");
+						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Colors: /ChangeHorse set Color");
 						return true;
 					}else{
 						player.sendMessage(ChatColor.YELLOW + "Horse colors only apply to normal horses.  Change horse to type \"Horse\"");
@@ -202,7 +213,7 @@ public class CHCommandExecutor implements CommandExecutor {
 								return true;
 							}
 						}
-						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Styles: /ChangeHorse Style");
+						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Styles: /ChangeHorse set Style");
 						return true;
 					}else{
 						player.sendMessage(ChatColor.YELLOW + "Horse styles only apply to normal horses.  Change horse to type \"Horse\"");
