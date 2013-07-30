@@ -1,7 +1,7 @@
 main: net.ST392.ChangeHorse.ChangeHorse
 author: ST392
 name: ChangeHorse
-version: 1.4.1
+version: 1.4.2
 
 commands:
    ChangeHorse:
