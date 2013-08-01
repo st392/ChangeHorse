@@ -1,17 +1,22 @@
 package net.ST392.ChangeHorse;
 
+import net.minecraft.server.v1_6_R2.AttributeInstance;
+import net.minecraft.server.v1_6_R2.EntityInsentient;
+import net.minecraft.server.v1_6_R2.GenericAttributes;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_6_R2.entity.CraftLivingEntity;
 import org.bukkit.entity.Horse;
 import org.bukkit.entity.Player;
 
 public class CHCommandExecutor implements CommandExecutor {
 	
 	String mainArgs = ChatColor.GREEN + "/ChangeHorse help " + ChatColor.YELLOW + " -- for help with using this plugin";
-	String getArgs = ChatColor.YELLOW + "A valid property to get is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength";
-	String setArgs = ChatColor.YELLOW + "A valid property to set is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength, MaxHealth";
+	String getArgs = ChatColor.YELLOW + "A valid property to get is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength, Speed";
+	String setArgs = ChatColor.YELLOW + "A valid property to set is required. Options are: " + ChatColor.GREEN + "Type, Color, Style, JumpStrength, MaxHealth, Speed";
 
 	//Class that handles slash commands from user
 	//=============================================
@@ -22,7 +27,6 @@ public class CHCommandExecutor implements CommandExecutor {
 	//=============================================
 	
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -123,6 +127,14 @@ public class CHCommandExecutor implements CommandExecutor {
 				player.sendMessage(ChatColor.GREEN + "Horse jump strength is: " + horse.getJumpStrength()*50);
 				return true;
 			}
+			if(option.equals("speed") || option.equals("sp")){
+				if(!player.hasPermission("changehorse.get.speed")){
+					player.sendMessage(ChatColor.RED + "You don't have permission!");
+					return true;
+				}
+				player.sendMessage(ChatColor.GREEN + "Horse speed is: " + getHorseSpeed(horse)*150);
+				return true;
+			}
 			player.sendMessage(getArgs);
 			return true;
 
@@ -158,7 +170,7 @@ public class CHCommandExecutor implements CommandExecutor {
 							return true;
 						}
 					}
-					player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Types: /ChangeHorse set Type");
+					player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Types: " + ChatColor.GREEN + "/ChangeHorse set Type");
 					return true;
 				}
 
@@ -184,7 +196,7 @@ public class CHCommandExecutor implements CommandExecutor {
 								return true;
 							}
 						}
-						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Colors: /ChangeHorse set Color");
+						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Colors: " + ChatColor.GREEN + "/ChangeHorse set Color");
 						return true;
 					}else{
 						player.sendMessage(ChatColor.YELLOW + "Horse colors only apply to normal horses.  Change horse to type \"Horse\"");
@@ -213,7 +225,7 @@ public class CHCommandExecutor implements CommandExecutor {
 								return true;
 							}
 						}
-						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Styles: /ChangeHorse set Style");
+						player.sendMessage(ChatColor.YELLOW + "Invalid arguement.  For list of Styles: " + ChatColor.GREEN + "/ChangeHorse set Style");
 						return true;
 					}else{
 						player.sendMessage(ChatColor.YELLOW + "Horse styles only apply to normal horses.  Change horse to type \"Horse\"");
@@ -245,7 +257,7 @@ public class CHCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.GREEN + "Horse jump strength set to " + num);
 						return true;
 					}else{
-						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use /ChangeHorse set JumpStrength");
+						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use " + ChatColor.GREEN + "/ChangeHorse set JumpStrength");
 						return true;
 					}
 				}
@@ -259,9 +271,9 @@ public class CHCommandExecutor implements CommandExecutor {
 					player.sendMessage(ChatColor.GREEN + "Valid range for Max Health is: 0-60");
 					return true;
 				}else{
-					int num = -1;
+					double num = -1;
 					try{
-						num = Integer.parseInt(args[2]);
+						num = Double.parseDouble(args[2]);
 					} catch(NumberFormatException e) {
 						player.sendMessage(ChatColor.YELLOW + "Invalid number given." + ChatColor.GREEN +" Valid range for Max Health is: 0-60");
 						return true;
@@ -272,7 +284,34 @@ public class CHCommandExecutor implements CommandExecutor {
 						player.sendMessage(ChatColor.GREEN + "Horse max health set to " + num);
 						return true;
 					}else{
-						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use /ChangeHorse set MaxHealth");
+						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use " + ChatColor.GREEN + "/ChangeHorse set MaxHealth");
+						return true;						
+					}
+				}
+			}
+			if(option.equals("speed") || option.equals("sp")){
+				if(!player.hasPermission("changehorse.set.speed")){
+					player.sendMessage(ChatColor.RED + "You don't have permission!");
+					return true;
+				}
+				if(args.length == 2){
+					player.sendMessage(ChatColor.GREEN + "Valid range for Speed is: 0-100");
+					return true;
+				}else{
+					double num = -1;
+					try{
+						num = Double.parseDouble(args[2]);
+					} catch(NumberFormatException e) {
+						player.sendMessage(ChatColor.YELLOW + "Invalid number given." + ChatColor.GREEN +" Valid range for Speed is: 0-100");
+						return true;
+					}
+
+					if(num > 0 && num <= 100){
+						setHorseSpeed(horse, num/150);
+						player.sendMessage(ChatColor.GREEN + "Horse speed set to " + num);
+						return true;
+					}else{
+						player.sendMessage(ChatColor.YELLOW + "Invalid number given, go get the correct range use " + ChatColor.GREEN + "/ChangeHorse set speed");
 						return true;						
 					}
 				}
@@ -285,4 +324,16 @@ public class CHCommandExecutor implements CommandExecutor {
 		return true;
 		//end new code
 	}
+	
+	private Double getHorseSpeed(Horse h){   
+        AttributeInstance attributes = ((EntityInsentient)((CraftLivingEntity)h).getHandle()).getAttributeInstance(GenericAttributes.d);
+        return attributes.getValue();
+    }
+   
+    private void setHorseSpeed(Horse h,double speed){   
+        // use about  2.25 for normalish speed  
+        AttributeInstance attributes = ((EntityInsentient)((CraftLivingEntity)h).getHandle()).getAttributeInstance(GenericAttributes.d);
+        attributes.setValue(speed);
+    }
+	
 }
