@@ -1,7 +1,7 @@
 main: net.ST392.ChangeHorse.ChangeHorse
 author: ST392
 name: ChangeHorse
-version: 1.4.2
+version: 1.5.0
 
 commands:
    ChangeHorse:
@@ -28,6 +28,7 @@ permissions:
             changehorse.get.color: true
             changehorse.get.style: true
             changehorse.get.jumpstrength: true
+            changehorse.get.speed: true
     changehorsee.set.*:
         description: Allows user to set all the properties of the horse
         default: op
@@ -37,6 +38,7 @@ permissions:
             changehorse.set.style: true
             changehorse.set.jumpstrength: true
             changehorse.set.maxhealth: true
+            changehorse.set.speed: true
             
     changehorse.get.type:
          description: Allows user to view the current type of the horse
@@ -49,6 +51,9 @@ permissions:
          default: true
     changehorse.get.jumpstrength:
          description: Allows user to view the current jump strength of the horse
+         default: true
+    changehorse.get.speed:
+         description: Allows user to view the current max speed of the horse
          default: true
          
     changehorse.set.type:
@@ -65,4 +70,7 @@ permissions:
          default: op
     changehorse.set.maxhealth:
          description: Allows the user to set the maximum health of horse they are riding
+         default: op
+    changehorse.set.speed:
+         description: Allows user to view the current max speed of the horse
          default: op
